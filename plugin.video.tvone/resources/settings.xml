@@ -1,0 +1,7 @@
+<settings>
+    <category label="General">
+        <setting label="Autoplay" type="bool" id="autoplay" default="true"/>
+        <setting label="Stream plugin" id="stream_plugin" type="select" values="inputstream.adaptive|ffmpeg" default="ffmpeg"/>
+        <setting label="Cache time (Hours)" type="slider" id="cache_time" default="8" range="0,80" option="int"/>
+    </category>
+</settings>
