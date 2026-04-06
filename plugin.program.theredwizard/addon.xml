@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.program.theredwizard" name="[COLOR red]The Red Wizard[/COLOR]" version="4.2.8" provider-name="Slam, Sarge, Funsterbe, BYB, Zaxxon709, [COLOR red]The Red Wizard[/COLOR]">
+	<requires>
+		<import addon="xbmc.python" version="3.0.1"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="addon.py">
+		<provides>executable</provides>
+	</extension>
+	<extension point="xbmc.service" library="service.py" />
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en_GB">[COLOR red]The Red Wizard for Kodi 21 Omega and Kodi 22 Piers[/COLOR]</summary>
+		<description lang="en_GB">[COLOR red]The Red Wizard for installing, updating and maintaining The Red Wizard Kodi 21 Omega and Kodi 22 Piers builds[/COLOR]</description>
+		<disclaimer lang="en_GB">[COLOR red]The author of this add-on does not host any content and has no affiliation with the content providers[/COLOR]</disclaimer>
+		<language>en</language>
+		<platform>all</platform>
+		<license>GPL-2.0-or-later</license>
+		<forum>https://t.me/+XiuBf9KvPfw2MzVk</forum>
+		<website>https://redwizard.xyz/</website> 
+		<email>info@redwizard.xyz</email>
+		<source>https://github.com/Slamious/plugin.program.simplewizard</source>
+		<news>[COLOR red]2026-03-31
+- Migrated from Debrid Manager (depricated) to Account Manager Lite by Zaxxon709
+- Multiple changes to Fresh Start settings
+- Screenshots updated
+- Provider Names and CREDITS.txt updated
+- Supports Kodi 21 Omega and Kodi 22 Piers
+- The Red Wizard has a new home! Go to https://redwizard.xyz[/COLOR]</news>
+		<assets>
+				<icon>resources/media/icon.png</icon>
+				<fanart>resources/media/fanart.jpg</fanart>
+				<screenshot>resources/media/screenshot01.jpg</screenshot>
+				<screenshot>resources/media/screenshot02.jpg</screenshot>
+				<screenshot>resources/media/screenshot03.jpg</screenshot>
+				<screenshot>resources/media/screenshot04.jpg</screenshot>
+				<screenshot>resources/media/screenshot05.jpg</screenshot>
+				<screenshot>resources/media/screenshot06.jpg</screenshot>
+				<screenshot>resources/media/screenshot07.jpg</screenshot>
+				<screenshot>resources/media/screenshot08.jpg</screenshot>
+				<screenshot>resources/media/screenshot09.jpg</screenshot>
+				<screenshot>resources/media/screenshot10.jpg</screenshot>
+		</assets>
+	</extension>
+</addon>
