@@ -1,0 +1,65 @@
+v2.1.2 (2026-02-25)
+ - Change to addon.xml description
+
+v2.1.1 (2026-02-24)
+- Updated import pvr.iptvsimple version
+
+v2.1.0 (2026-02-24)
+ - Now a standalone plug-in (not a dependency)
+
+v2.0.9 (2025-07-13)
+ - Forum address updated
+
+v2.0.8 (2024-12-17)
+ - Changes to addon.xml
+
+v2.0.7 (2024-10-15)
+ - Change to addon.xml
+
+v2.0.6 (2024-10-13)
+ - Change to addon.xml
+
+v2.0.5 (2024-10-13)
+ - Bump "requires" pvr.iptvsimple version
+ - Changes to addon.xml
+
+v2.0.4 (2024-10-08)
+ - Rewritten as a dependency
+ - Forum added to addon.xml
+ - Changes to addon.xml
+
+v2.0.3 (2024-09-15)
+ - Change to addon.xml
+
+v2.0.2 (2024-09-14)
+ - Change to addon.xml
+
+v2.0.1 (2024-09-14)
+ - Version bump
+
+v2.0.0 (2024-09-14)
+ - Rewritten as a service
+ - Bump "requires" versions
+ - New icon and fanart
+
+v1.0.6 (2023-11-05)
+ - Remove import addon="vfs.libarchive"
+
+v1.0.5 (2023-10-16)
+ - Change to add-on description
+
+v1.0.4 (2023-10-14)
+ - Change to addon.xml
+
+v1.0.3 (2023-10-14)
+ - Change to addon.xml
+
+v1.0.2 (2023-10-14)
+ - Version for The Red Repo
+
+v1.0.1 (2023-10-14)
+ - Test release
+
+v1.0.0 (2023-10-14)
+ - Initial release
+ - Installs binary addons on install and update: "inputstream.ffmpegdirect", "inputstream.adaptive", "inputstream.rtmp", "pvr.iptvsimple", "vfs.libarchive"

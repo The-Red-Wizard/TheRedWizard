@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="service.installmybinaries"
+version="2.1.2"
+name="[COLOR red]Install My Binaries[/COLOR]"
+provider-name="[COLOR red]The Red Wizard[/COLOR]">
+<requires>
+  <import addon="xbmc.python" version="3.0.1"/>
+  <import addon="inputstream.adaptive" version="21.0.0"/>
+  <import addon="inputstream.ffmpegdirect" version="21.0.0"/>
+  <import addon="inputstream.rtmp" version="21.0.0"/>
+  <import addon="pvr.iptvsimple" version="21.11.0"/>
+</requires>
+<extension point="xbmc.service" library="service.py" />
+<extension point="xbmc.addon.metadata">
+  <summary lang="en_GB">[COLOR red]Installs binaries for The Red Wizard Live and Redflix TOTAL Kodi 21 Omega builds[/COLOR]</summary>
+  <description lang="en_GB">[COLOR red]Installs binary addons on install and update: "inputstream.adaptive", "inputstream.ffmpegdirect", "inputstream.rtmp" and "pvr.iptvsimple"[/COLOR]</description>
+  <platform>all</platform>
+  <news>[COLOR red]2026-02-25
+- Now a standalone plug-in (not a dependency)
+- Updated import pvr.iptvsimple version[/COLOR]</news>
+  <license>GPL-3.0-only	</license>
+  <email>info@redwizard.xyz</email>
+  <website>https://www.redwizard.xyz/</website>
+  <forum>https://t.me/+XiuBf9KvPfw2MzVk</forum>
+  <assets> version
+    <icon>resources/media/icon.png</icon>
+    <fanart>resources/media/fanart.jpg</fanart>
+  </assets>
+</extension>
+</addon>
