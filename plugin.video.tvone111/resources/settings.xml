@@ -1,0 +1,5 @@
+<settings>
+    <category label="General">
+        <setting label="Stream plugin" id="stream_plugin" type="select" values="inputstream.adaptive|ffmpeg" default="ffmpeg"/>
+    </category>
+</settings>
