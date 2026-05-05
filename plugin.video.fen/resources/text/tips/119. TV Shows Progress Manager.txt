@@ -1,2 +1,0 @@
-
-Progress Manager being worked on. Drop/Undrop in Trakt app or website->Shows
