@@ -1,0 +1,199 @@
+
+[COLOR red]The Red Wizard Changelog:[/COLOR]
+
+[B]- 5.1.55-5.1.57[/B] Menu and Settings updates:
+ * TVmaze New Episodes and Calendar added to TV Shows menu.
+ * More Stuff menu removed.
+ * TV Passport added to main menu.
+ * Redundant Settings removed: Episodes Widget, Disable Notifications, Show Changelog After Updates, What's New.
+ * Old changelog.txt now whatisnew.txt.
+
+[B]- 5.1.54[/B] Scraper fix + Error on first launch/update fix + Previous Changelogs:
+ * Existing Changelog now "What's New".
+ * Previous [COLOR red]The Red Wizard[/COLOR] and [COLOR orange]JewBMX[/COLOR] changelogs now available online and accessed through the Tools menu.
+ * Scraper domain fix: [B]bstsrs[/B] - primary mirror reverted to [I]bstsrs.in[/I] (temporary issue when previously tested).
+ * Misnamed changelog function call which caused an error on first launch/update fixed.
+
+[B]- 5.1.53[/B] Dead-scraper fixes + in-addon Scraper Tester + Changelog notification:
+ * Scraper domain fix: [B]bstsrs[/B] - primary mirror switched from [I]bstsrs.in[/I] (now returns 403 via Cloudflare) to [I]bstsrs.cc[/I]. [I].in[/I] and [I].one[/I] are kept in the domains list as fall-backs. All other shipped scrapers were reachability-tested and their current base URLs are still alive.
+ * [B]NEW - Scraper Tester[/B] inside the addon settings. Open [I]Settings > Provider Settings[/I] and use:
+    - [B]Test ALL Scrapers (reachability)[/B] - runs a live HTTP probe against every provider in [I]resources/lib/sources/working/[/I] and shows a per-provider OK/DEAD report (status code, mirror used, latency).
+    - [B]Test a Single Scraper[/B] - pick one from a list and test just that provider.
+   A report file is also written to the addon's profile folder as [I]scraper_tester_last.txt[/I] for easy sharing / debugging.
+ * [B]NEW - Changelog notification[/B]. On the first launch after an update, Scrubs v2 now pops up a full-screen [B]What's New[/B] dialog that the user must dismiss by pressing OK. A persistent [B]"What's New"[/B] entry is also prepended to the addon's root menu and stays there until opened or explicitly dismissed via the [I]"Dismiss What's New banner"[/I] entry directly beneath it. * [B]NEW - View Changelog button[/B] in [I]Settings > Developer Settings > Changelog[/I] so you can re-open the changelog at any time.
+
+[B]- 5.1.52[/B] Trailers - Smart cascade + auto-fallback:
+ * New "Smart (Auto-Cascade)" Trailers Source - now the default. Tries TMDb, then IMDb, then Trakt, then YouTube (if you've supplied a key) and uses the first source that has a trailer.
+ * New toggle "Auto-fallback to other sources when the chosen source has no trailer" - lets single-source picks (TMDb/YouTube/IMDb/Trakt) still fall through to the Smart cascade instead of dead-ending with "No trailer available". Enabled by default; disable to force strict single-source behaviour.
+
+[B]- 5.1.51[/B] Trailers overhaul:
+ * TMDb is now the default Trailers Source (previously IMDb).
+ * Removed the bundled/hardcoded YouTube Data API keys. YouTube is kept as an optional fallback only.
+ * To use the YouTube source, either pair with plugin.video.youtube (its configured key is picked up automatically) or supply your own key in Settings - Metadata - YouTube (Optional Fallback).
+ * Cleaner "No trailer available" message when a title has no trailer on the selected source.
+
+[B]- 5.1.50[/B] Previous release.
+
+[B]- 5.1.49[/B] Speed-ups:
+ * Trakt user-lists directories (personal lists, liked lists, episode lists) now share a dedicated 5-minute cache so re-entering the menu no longer re-walks every Trakt page.
+ * Trakt watchlist / favorites / collection (movies + TV) now paginate server-side via limit/page - huge accounts open instantly instead of dumping every item in one render pass.
+ * Added "Refresh Trakt Cache" entry at the bottom of the My Trakt menu - a non-destructive one-tap resync that only drops the new short-TTL Trakt table (TMDb / meta caches untouched).
+ * Hardened Trakt short-TTL cache to fall back to stale data on transient 5xx / 429 errors so directories never render empty on a hiccup.
+
+[B]- 5.1.48[/B] Trakt lists fix: now follows Trakt's pagination headers so every personal / liked list is returned instead of only the first page. Also hardens __getTrakt against transient 5xx / 429 errors that previously made lists appear empty.
+
+[B]- 5.1.47[/B] Previous release.
+
+[B]- 5.1.46[/B] Trakt menu edited
+
+[B]- 5.1.45[/B] Sources, scrapers and menus updated.
+
+[B]- 5.1.44[/B] Sources and menus updated.
+
+[B]- 5.1.43a[/B] Test version for old and additional sources.
+
+[B]- 5.1.43[/B] Sources updated, checked and cleaned by [COLOR red]The Red Wizard[/COLOR].
+
+[COLOR orange]JewBMX Changelog:[/COLOR]
+
+[B]- 5.1.42[/B] Changed some setting ids for fanart settings and added one to use "fanart tv's preview size" which is supposed to reduce size and loading time lol.(untested)  Updated the cache module a bit using code from gujal, Note: there will likely be errors if any cache isnt cleared that uses this code. Also added a setting for cache timeout, set default to 12 hours, and updated all the cache code to use the timeout setting instead of the various hardcoded odd timeouts from before lol.(Not sure if any of this might cause anyone issues somewhere.) Removed the use of "control.moderator()" to try fixing some odd issue posted on reddit.
+
+[B]- 5.1.41[/B] Did various small code changes/tweaks to a bunch of random stuff.(user requested / supplied assistance) Also did some minor changes in settings, mainly label based. Hardcoded the wootly domain/host name to its sources due to my ocd not liking it only showing "wootly" instead of "wootly.ch" lol.
+
+[B]- 5.1.40[/B] Did some light scraper work plus adding some new ones.(With the help of some folks from github.) Might of done more but dont recall since my updates are so far apart anymore lmao. Decided to push this update "incomplete" as i have more to do but can count it as like a stage1 and stage2 lol.
+
+[B]- 5.1.39[/B] Updated the settings a little for easier user use lol.(mainly the account tab.) Updated some scrape_sources stuff like some host fixes. Removed my contact details due to fools and trolls.(AKA Fools lol) Removed pretty much all the IMDB stuff besides trailers and common imdb_number use lol. Did some light scraper work plus adding some new ones.
+
+[B]- 5.1.38[/B] Tossed rabbitstream and dokicloud into the hostcapDict list so they can be blocked as "Captcha Sources" since they never seem to work for me but might for someone else lol. Swapped back to the client.scrapePage code in alot more spots while tracking down a error for someone and dont feel like bothering to change it back lol.(scrapePage is faster anyways which is what most folks want.) Did various scraper work and did some updating for the scrape_sources module.(Waited for resolveurl to update so the host domains would match everyones resolvers.)
+
+[B]- 5.1.37[/B] Swapped back in all my client.scrapePage code for the indexers and some modules because people told me its alot slower the other way, also because the trakt progress widget was not returning peoples full watchlist.(a good watchlist/progress example would be mine only showing 84 shows when its really 124 shows.)
+
+[B]- 5.1.36[/B] Removed the quality code thats never used. Added some basic quality images to the addon for the source lists and a setting to let you use them.(Normal use looks best with this when "Source List Metadata" is enabled. Atleast on my setup lol.) Also redesigned the Playback Settings tab a bit. Removed the addon screenshots since they are kinda wasted space and not needed. Fixed a random rare issue where the getAliasTitles def would fail and return none which causes the scrape process to also error out during its prep work. Decided to swap all my client.scrapePage code back to the client.request code everywhere in the addon.(Might need to use the cleaning tools to clear out the old stuff but doubtful as the process after a update should cleanup stuff for you. Might also make some things a little slower or quicker lol.) Tossed in a new setting "preemptive.type" so you can choose to use that bit based on your max quality or total sources.(Note that total sources wont always be the exact number set lol.) Did some basic scraper cleanup and made a couple more.
+
+[B]- 5.1.35[/B] Updated the 2embed code in my scrape_sources module to get its new url resolved which will show up as a host. Removed the 2embed scraper. Removed all "broken" scrapers aka my broken folder from the addon and leaving it stored on my laptop instead.(was wasted space on folks devices lol.) Added a new sub-section in the Dev'ish Settings to toggle on/off each embedder/hoster scraped further with my scrape_sources module.(useful to speed things up and/or disable the ones that fail or run slow. since its hard to know when they work or fail i added notes to the setting labels to show which ones could be broken. unknown means i havent tested it lately and i advise keeping those enabled as they are mostly custom resolvers for sources resolveurl might not process.) Fixed a random label issue with titles in the MyFavorites section.(now the lists are pretty again.)
+
+[B]- 5.1.34[/B] Changed up my host limit code and added a sub-setting to let you pick the host limit number/count.(defaulted to 3, max is 50 just for the hell of it lol.) Added a setting to sort by host.(not sure how useful it will be of how it will react with the other settings, but it was useful for my testing <3.) Did quite a bit of changes to my scrape_sources module and a few changes to source_utils too. Removed all my "hard-coded" hosts besides youtube from the hostblockDict, now all host blocking can be done with resolveurl by you like its supposed to be instead.(still doing url prep work to try and make source urls playable.) Removed the setting for swapping the hostblockDict since its no longer needed. Updated and tested pretty much all the scrapers and tossed in the host limit code too. Added control.idle() to the trailers module in a few random spots which should remove a few of the busy wheels which seem to randomly crash kodi for some folks.(not quite sure if the problem is fixed now, will have to wait and see.)
+
+[B]- 5.1.33[/B] Made/Fixed/Updated/Cleaned some scrapers lol. Did some more work to my scrape_sources module and the hosts scraped within.(tested, updated, or fixed a few of em like vidsrc.) Added/Edited some modules too for some scrapers.
+
+[B]- 5.1.32[/B] *Rushed Update for a user that disabled the TopBar and couldnt get it back.* Added a option in cleaning tools to remove saved viewtype bits.(think it wipes all.) Added a force open sidemenu/slidemenu option in the setup viewtypes section and in dev tools.(does what it says lol.) Might of fixed another scraper or something, was in the middle of working on some when this all came up.
+
+[B]- 5.1.31[/B] Updated a few scrapers with a little help from some fellow users input. Fixed a couple more scrapers that had bad searchs, Also added in my search_engines module that i have been making.(Note that this module is not done and due to change as i continue making it. As of now Bing is the only one coded most the way.) Added a setting to enable or disable the host limit on scrapers.(enabled: useful to speed up some slow scrapers, disabled: useful for when you cant get a playable source.) Moved the settings for Trailers to the bottom of the General Settings tab.(seems cleaner this way and easier to navigate and toggle shit lol.)
+
+[B]- 5.1.30[/B] Removed both of my gdriveplayer scrapers then Made a new one from their API url with movies, tvshows, anime, and drama all in one.(might run slower depending on the content, also might get shitty results when its anime or drama because the api for it is a bit lacking. Sources will be dub and sub.) Also updated/modified some modules and whatnot too most likely while i was making that scraper and doing tests lol. Updated all the scrapers to have imdb tmdb and tvdb ids passed to em and made changes to account for it where needed.(This might break the players/code used to leech my addon like TmdbHelper.) Made a new indexer/section found in More Stuff from the gdriveplayer API thats like the new scraper and works like a mixture of the other More Stuff indexers/sections.(Might have errors and still needs cleaned up quite a bit lol.)
+
+[B]- 5.1.29[/B] Did some scraper work and resolver work, also modified the sources module and removed some no longer needed code. Added a setting and function to let you log the results from the Provider Domains feature found in the dev tools menu. (might be handy for some folks.) Added some code to the Provider Domains feature that will show my scraper notes if the scraper has any. Moved my side notes down in here to please my ocd lol. Made some sorta large changes in my scrape_sources module mostly for the prepare_link def which might slow things down a little.(Not really sure but i like it regardless.)
+
+[B]- 5.1.28[/B] Fixed a little error i made in the settings which broke the clean settings bit but didnt really effect anything else lol. Fixed/Updated a few scrapers to do a second search if the first one fails.(Its TV Show based only, First search is title and season, Second is just title.) Finished my changes to the trailers module.(Mostly cleanup.) Fixed a few scrapers resolve code so the results will play instead of failing. Also tossed a couple scrapers back into the mix that were duds but work again.
+
+[B]- 5.1.27[/B] Added a Flixed Channels section thats like the TVpassport one. (from flixed.io, if i forgot any good channels let me know to add em.) Made a newish scraper for tvmovieflix_com coded about halfway. Also brought back the scraper for 0123putlocker_com. (Still runs slow lol.) Added a4kSubtitles to the Optional Installs ssection of tools, also added a open a4kSubtitles settings shortcut in the addon settings below the current subtitle settings.(only visible if a4kSubtitles is installed. Handy to quickly enable/disable shit.) Made a new scraper movieffm_net and made it disabled by default since it might be crappy. Made a few more new random scrapers.
+
+[B]- 5.1.26[/B] Added a Watchedlist option for trakt that can be handy altho likely slow loading lol.(Loads a list of everything you have seen for that mediatype, got the idea for this from someone on reddit.) Changed the source resolve error to include the exception/info for the url. Tweaked a few things like metacache and whatnot to try and clean up the code and speed things up a bit. Updated my Trailers code quite a bit and added some new settings for the changes. (Not gonna go into detail but yall should enjoy it.)
+
+[B]- 5.1.25[/B] Did some more code changes in various places mainly the indexers, hopefully fixing some things, speeding things up, and not breaking anything lol. (As always the episode indexer is the only thing left on my todo list, shame i cant outsource it to someone else.)
+
+[B]- 5.1.24[/B] Did some code changes in various places and modified some scrapers that gave the wrong episode sources.(If you wanna help with this just send me the scraper name, tvshow, season, and episode. any other info is welcomed but this whats needed to find the bugs lol.)
+
+[B]- 5.1.23[/B] Changed the code for Trakt Library Sync a little which i think is how it was supposed to always be. Updated the InfoTagger module by jurialmunkey to v0.0.7 since i use it "built-in". Did a little scraper work. Added my LazyLinks addon to Tools and Optional Installs. Changed a little of my previous changes back to the way it was to try fixing some error someone has lol.
+
+[B]- 5.1.22[/B] Did a scrapers/providers update/cleanup. Made some new search customizing bits with settings found around the bottom of General Settings picking the search metadata source for Movies, TV Shows, People, and Keywords.(All 4 have IMDb and TMDb but i didnt add Trakt to People or Keywords.) Made some new Info Metadata customizing bits with settings found at the bottom of General Settings to pick the info metadata source for Movies, TV Shows, Seasons, and Episodes.(TMDb based or Trakt based info for movies and shows but likely not always set for all season and episode stuff/code.) Also added in a new artwork setting in the same place but think its only in movies and tvshows.(This setting likely needs tuned to match the older fanartTV setting now.)
+
+[B]- 5.1.21[/B] Changed the WatchOnline sections code a little more to ensure source scrapes work. (was erroring out when the html shown a ' instead of " but now that dont matter lol.)
+
+[B]- 5.1.20[/B] Did a full-ish scraper/provider cleanup. (Few days back lol.) Changed the WatchOnline section yet again to be like a older design i did using all 90+ dedicated sites, besides a few that didnt load for me which i still tossed in half written labeled "(Broken?)". (Did not test it all yet, but did test a little and made sure Doctor Who worked lol. Feel free to tell me if ya find any issues. I also left some log code active for error hunting.)
+
+[B]- 5.1.19[/B] Changed my TMDB Collections section to be one line or two with a setting, and put some two line cleanup code in to counter the long lines from being glitchy. Also changed the genres look from the "1 | 2" to a simple "(1, 2)".(Let me know if anyone wants the option to pick between them styles. new ways good for single and old ways nice on double lol.) Fixed/Created/Removed some scrapers.
+
+[B]- 5.1.18[/B] Remade my TMDB Collections section with a fresh list and more details, then redesigned it too and added more features as well. Might of done more changes but dont recall since the collections work was so extensive.
+
+[B]- 5.1.17[/B] Updated TVpassport a little more and sorted it to be the cleaner a-z lol.(Looking like the site has random loading errors that can cause the need to retry a channel, thought it was code lol.) Moved a few settings to Devish and made a couple settings to use season posters/viewtypes instead of the episode thumbs/viewtypes.(Warning both settings are a bit ghetto but seem to still work. Not sure if there are any unforseen issues these can cause lol.)
+
+[B]- 5.1.16[/B] Modified Sky Channels so the api url pulls "now, next, and later" which gives a 3 movie lineup per channel.(thats 3 before my dupe blocking.) Modified TVpassport a bit by grouping some dupe-ish channels to reduce and clean up the channel list a little. (Grouped channels scrape together and have my dupe blocking.) Updated the source info line code again for the same issue lol.
+
+[B]- 5.1.15[/B] Modified the filepursuit scraper a bit more. Updated a little line making code for the source info shown which removes blank bits like '/ /' or '| |'. Added a new ghetto setting "Trakt Progress/Episodes Item Limit" which makes your "trakt progress" or "trakt episodes" load 50, 100, or 150 items max. (Defaults 100.) Updated a few scrapers that gave the wrong episode results.(Also found that 2 putlocker ones give bad results due to their site data. Their sources are membed links but the link and episode data is reversed so episode 1 is 7 and 7 is 1, and membed produces 5ish hosts/sources that are the wrong episode lol.) Added a new setting "Use Indexers Cache Feature" to disable/bypass the caching code used in the main indexers for like trakt, tmdb, or imdb type of stuff.
+
+[B]- 5.1.14[/B] Made the final client changes counting the scrapers. Made atleast 1 new scraper. Removed about 12 duped sites/scrapers and saved em in their matching scraper for future swaps. (Didnt bother touching my "broken" folder of scrapers since they will probably need recoded anyways when they are worth adding back in.)
+
+[B]- 5.1.13[/B] Switched most the client code back to my scrapePage def because request seems to still have errors for people. (I will probably swap it back in all the scrapers later.)
+
+[B]- 5.1.12[/B] Swapped the trakt module back to the use of client.request and saved the ALT version for now.(seems to be working well again.) Updated a couple scrapers, like filepursuit which just had a api update recently.(Also added the file names to the scraper to make it more useful.) Ditched a couple lines of log code on client.request to limit the log spam produced.
+
+[B]- 5.1.11[/B] Flipped the previous_changelogs file to be latest changes first and a gap inbetween em. Removed some dead/dud scrapers. Changed client.py a bit and broke it down then swapped to a new modified request def. Also swapped the entire addon back to client.request use.(Old module saved in the addon for now as client_old.) Updated my host type of code to match resolveurls last update.(Had little tricks coded that were not needed now.)
+
+[B]- 5.1.09-5.1.10[/B] Made a scraper, pulled a few others out that were not working. Added some defs to a few modules. Changed some code for TVpassport and Sky Channels to make em work better/faster.
+
+[B]- 5.1.08[/B] Swapped a little of my new code around to fix a issue with page scrapes i seen coming lol. Also tossed one bad scraper in the blockage folder. Went ahead and blocked rabbitstream.net and dokicloud.one hosts. (the new host setting can enable them again.)
+
+[B]- 5.1.06-5.1.07[/B] Made some changelog changes to be cleaner and added a new option in Tools for it. Changed source list a little so providers _ is replaced with . that way it looks a bit better, and i also made the host label show the full domain instead of just the first chunk :). Added a label change for the sources info bit too that now checks if there is info before adding the extra line for info.(not easily noticed besides a random | when the label rolls.) Fixed a fanart.tv issue with tvshows someone found. Made a setting to not block valid hosts that dont work for me. (incase they will work for others.) Did a bunch of other changes/fixes in various places but too much to type lmao.(Mostly regarding providers, sources, hosts, and whatnot.)
+
+[B]- 5.1.05[/B] Changed getProviderDomains a little by moving it up in DevTools to look cleaner, also added a little list space and each scrapers last 3 domains. Added a little code to sort sources list by providers before the dupe check. (pretty much just a useless line of code that makes me happy, but also sorta means the first link found will be the one shown and all dupes after are whats filtered out.) Renamed the scrapers/providers to match their current domain as of now but the . is a _ lol.(Updated the settings to match which will likely wipe any related user settings and be default.) Modified the dupe checker code a little so it will ignore http/https differences.
+
+[B]- 5.1.04[/B] Changed the trailer code a bit so you can change the source setting then click trailer again and have it swap without issues. (it was being set in each item while its made. now its set on action.) Made a new def and menu item called getProviderDomains plus a textViewer2 duped def coded to just be text instead of for file use.(I tossed this all in just so the scrapers url used can be seen easily. the menu items under DevTools. Be Aware that it wont show the scrapers in my "broken" folder.) Made some new scrapers(20ish) and updated the rest a bit. Also updated and resorted the provider settings to account for the new scrapers. Might of done some other stuff but dont remember because im always high :).
+
+[B]- 5.1.01-5.1.03[/B] Made some scrapers and updated some others. Cleaned up a little log code i left in to test the MyFavorites. Changed the code for aliases a bit to include all titles gathered at once instead of coding them in each scraper. Updated some cleantitle code that Host505 used which fixes a odd debug log line. Added in a infotagger module made by jurialmunkey for the new listItem changes in kodi v20.(if you use older versions of kodi tell me if you spot any issues.) Also tweaked some various code for item data like item genres and whatnot.
+
+[B]- 5.1.00[/B] Fixed imdb a bit. Added, fixed, or made some scrapers and cleaned up a bit. Added in some old favorites code labeled MyFavorites and did a bit of rework for it. (Now you can make and edit a quick easy saved list of shows or movies yet another way lol.) Might of done more stuff but cant recall.
+
+[B]- 5.0.34[/B] Made a couple new settings for notifcations/infoDialogs found in the Dev'ish Settings tab. This is just a quick update to help yall out during the trakt downtime and to shut yall up too lol.
+
+[B]- 5.0.33[/B] Made a trailers.to scraper for a user. (not fully tested so some results might fail.) Added some old code to cock block douche bags like the shadow addon from leaching off scrubs. (added it in sloppy compared to before so might run a bit slower lol.)
+
+[B]- 5.0.32[/B] Fixed the random episode option for "WatchOnline: DoctorWho".(Also decided not to add back any of their other 70ish sites.) Tossed in my xemovies and realtalksociety scrapers. added a timeout to the primewiremn scraper code to reduce hangtime for users that havent disabled it yet. Added a setting called "Show Items Without Year/AirDate"(defaults false.) to help someone out and so yall can enjoy it too. (useful for Anticipated sections.)
+
+[B]- 5.0.31[/B] Updated some artwork code in the last update for tv shows where no artwork found wasnt showing the default pic for it.(addon fanart) Cleaned up TVpassport Channels a little by ditching some channels and whatnot. Added back a newish version of "WatchOnline" for DoctorWho so someone can watch the new special they released.
+
+[B]- 5.0.30[/B] Updated the addon fanart for both themes. Made a new Indexer/Menu Section called "TVpassport Channels" which is a daily list of movies that air on a chosen channel. (Similar to "Sky Channels" Menu Section.)
+
+[B]- 5.0.29[/B] Changed the artwork code and url for TMDb artwork back to the fixed size style to reduce the sizes. (original is just too bulky lol.) Added in filepursuit for a user. (Contact me about any changes or issues you have for this as i do not use it.)
+
+[B]- 5.0.28[/B] Modified the addon so script.scrubsv2.artwork is a Optional Install with it in that menu section, a popup to install on first runs like fresh installs and updates, plus a setting to disable the popup if the artwork isnt installed. (All of this should be unused code and not seen when the artwork is installed.) Recoded all the scrapers to use the match alias and match year defs for better results. (hopefully lol) Also did a full scraper check/cleanup and added some quality scrapes where possible. (likely not accurate lol.)
+
+[B]- 5.0.27[/B] Moved all iptv content to my Json IPTV addon, then added a shortcut for it in the More Stuff and Optional Installs sections. Modified/Fixed a couple scrapers for someone.
+
+[B]- 5.0.26[/B] Modified the episode code for some more scrapers to try improving the proper episode sources. Made a little match_year def to improve the year check in scrapers.
+
+[B]- 5.0.25[/B] Fixed a error i made in the settings with a symbol lol and also modified the episode code for the 123moviesfree scraper to try improving the proper episode sources.
+
+[B]- 5.0.24[/B] Added a new setting to toggle the &/and replacement for item titles. (so you can search for like Law and Order or Law & Order)  Applied some changes to the main.py with a new system.router process, was a suggested change but not sure of its pros/cons. (Doesnt seem any slower of faster to me but will swap it back if anyone wants.) Fixed some 2embed code for sources. Updated my custom host swaps for dood to fix the 4 known bad domains. Added support for ronemo.com sources if any are found. (rocdn.net is the host shown from my test item.) Updated, fixed, or made some scrapers and updated the settings for em all.
+
+[B]- 5.0.23[/B] Changed up the "Episodes (Widget)" and its setting, everyone probably needs to update this now on their devices. Added another site for iptv stuff called "WatchYourTV". Removed the IPTV items i been working on like the canada list, its all now in its own addon called plugin.video.json_iptv i tossed together for testing. Updated the url for the youtube addon play code which is used for trailers.(Might cause problems with kodi versions below v18 or v19.) Made a couple scrapers and fixed some while doing a cleanup of em.
+
+[B]- 5.0.22[/B] Fixed a little trakt code that was making some userlists error out. Removed "Watch [Show] Online" and "ShadowNet" from the More Stuff section because they both suck now and im not interested in fixing them up lol.
+
+[B]- 5.0.21[/B] Made a slight change to my text cleaning code to hopefully fix name issues when loading userlists and other stuff, mainly used for title stuff. Did a quick scraper cleanup. Added another iptv section thats the start to my larger iptv plans, as of now its just a canada list for a user then later i will add the rest when im done.
+
+[B]- 5.0.20[/B] Did some light changes to my TMDb Collections section. Modified the My Userlists section by breaking it all up and removed the setting to hide trakt liked lists. Updated a bit of custom host code to direct sources to the active domains.
+
+[B]- 5.0.19[/B] Selfishly modilied some scrapers to change House to House M.D. so i can get some more sources and reduce the mis-scraped trash lol. Sorry for the un-needed update :).
+
+[B]- 5.0.18[/B] Changed some stuff in the ShadowNet section to try and improve it, removed artwork also since it didnt load properly anyways. Removed most of my forced cookie code from the scrapers to improve scrape time, if there are errors due to this change i will deal with them later lol. Also removed the debrid warning popup i tossed in a while back since i added the limited use option.(someone will have to tell me if that even works lol.)
+
+[B]- 5.0.17[/B] Updated some settings. Modified some Trakt code with some of host505's changes.(for speed testing but speed doesnt seem to change.) Fixed a odd error from some items not scraped properly.(only fixes half the problem.) Made and added some new scrapers while updating or fixing others.(plus some anime/toon ones.) Added a setting under Accounts for resolveurl called "Resolve With Debrid".(Not tested but might be useful to debrid folks.) Added a new iptv site called WatchNewsLive which is pretty much a clone of the other two ustv sites/sections. Also Added a nice new iptv site/section called ShadowNet.(My tests had 720p streams.)
+
+[B]- 5.0.16[/B] Light changes to the source domain stuff. (Added some code for membed use, Removed custom code for dood.) Did some other changes. (like Trakt Progress limit to 100 items.) Added a "Disable Debrid Warning PopUp" setting tucked away in the Debugging/Dev settings tab for the smart users lol.
+
+[B]- 5.0.15[/B] Modified the Trakt Progress code a little to hopefully help with loading times for users with big lists.
+
+[B]- 5.0.14[/B] Removed some old broken code that wont be used anymore.(like flatten shows and episode userlists.) Fixed other userlist issues and added a setting to hide/show liked userlists. Updated scrapers.
+
+[B]- 5.0.13[/B] Made another iptv bit called UStv247 thats a UStvGO clone. Decided to swap the quality code back to a older version and updated the addon to use it too.(Quality settings changed.)(let me know if there is any errors.)
+
+[B]- 5.0.12[/B] Ditched the myvideolinks scraper/provider due to its faulty search. refined the quality coding a bit more to reduce the fake 4k's.
+
+[B]- 5.0.11[/B] finished the new "Watch [Show] Online" section in More Stuff. Added in a new scraper i made.(watchserieshdstream) Made and added in a new iptv indexer for UStvGO.(So far.)(Some channels fail to find the link which makes my new random channel option suck a little but enjoy anyways lol.) Also modified the quality, info, and filetype defs to try and refine the results better.
+
+[B]- 5.0.10[/B] small text adjustment in the settings. tossed the debug tools into cleantools_widget when the dev settings enabled. Fixed a couple more missed label errors for kodi 18. Added the Unaired Color code back in for movies that havent aired yet. Added a new "Watch [Show] Online" section in More Stuff. (still needs testing and work.)
+
+[B]- 5.0.9[/B] Fixes one more issue with Kodi 18. Also removed most base64 codeuse which was a waste of time.
+
+[B]- 5.0.8[/B] Fixes another small error in TVmaze networks names, and some code changes to sources and the scrapers/providers.
+
+[B]- 5.0.7[/B] Fixes a small error in TVmaze networks names, and also changes that seems to fix the indicators.(aka watched icons.)
+
+[B]- 5.0.1-5.0.6[/B] Minor code changes and issues fixed.
+
+[B]-[/B] Changed way too much to list lol.(along with the removal of pretty much all debrid stuff.)
+[B]-[/B] Converted older versions of TheOath and Scrubs into this strange thing.
+[B]-[/B] Updated for Kodi 19.0 Based off Host505 Changes mostly. and a few from other folks also.
+[B]-[/B] Now designed to be english only and supporting Kodi 19+ only.(I dont use older versions.)
+[B]-[/B] Stuffed with likely twice the shit and probably half the size.(plus surprisingly speedy.)

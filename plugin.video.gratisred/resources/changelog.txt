@@ -1,0 +1,261 @@
+
+[COLOR red]v1.1.0 (2026-04-29)[/COLOR]
+[COLOR blue]I'm grateful to The Alpha, this time for his work on bstsrs.one,
+implementing srstop.link (and providers generally) and FlareSolverr.[/COLOR][COLOR red]
+ - FlareSolverr default value of http://127.0.0.1:8191/v1 added.
+ - Clean up of navigator.py (menus).
+
+v1.0.9 (2026-04-29)
+ - Provider Settings list (FIX): bstsrs_one was visible in
+   Settings > Provider Settings but the newer scrapers
+   srstop_link, watchseries_cyou and projectfreetv_lol had no
+   matching <setting> entries, so the user could not toggle them
+   alongside bstsrs.  All three now appear in the providers list.
+   * resources/settings.xml: added provider.srstop_link (FlareSolverr),
+     provider.watchseries_cyou and provider.projectfreetv_lol entries.
+ - Cloudflare challenge detection (FIX): with FlareSolverr enabled,
+   srstop and bstsrs still produced no links because Cloudflare's
+   modern managed-challenge can be served with status 200 (not just
+   403/503), and the previous _is_cf_challenge only inspected the
+   body when the status code was 403/503.  Result: scrapePage saw a
+   "Just a moment..." page, never routed it to FlareSolverr, the
+   scraper short-circuited and the provider returned zero sources.
+  * resources/lib/modules/client.py: _is_cf_challenge now triggers
+    on `cf-mitigated: challenge` OR an interstitial body marker
+    ("Just a moment", "cf-chl", "challenge-platform", "__cf_chl_")
+    regardless of HTTP status code; the legacy 403/503 + Server:
+    cloudflare path is preserved as a fallback for non-CF 403s
+    (plain nginx Forbidden no longer triggers a needless
+    FlareSolverr round-trip).
+ - srstop_link break-loop fix: the candidate-URL loop only stopped
+   once it saw `embed-selector` in the HTML, so a valid response
+   that exposed `dbneg(...)` without the wrapper class was thrown
+   away and the next 404 candidate URL overwrote it.  Aligned with
+   bstsrs_one which already breaks on either marker.
+  * resources/lib/sources/working/srstop_link.py: also break on
+    `dbneg(`, and short-circuit if FlareSolverr could not solve the
+    CF challenge ("Just a moment" still in body).
+
+v1.0.8 (2026-04-29)
+ - FlareSolverr cookie cache (FIX): in v1.0.7, enabling FlareSolverr
+   made bstsrs links appear but srstop links disappeared. Both
+   bstsrs.in AND srstop.link are CF-protected, so each scraper was
+   round-tripping through FlareSolverr for every candidate URL it
+   tried (~15-30s per call x 5-7 URLs).  The shared providers.timeout
+   killed the second scraper before it could parse anything.
+  * resources/lib/modules/client.py: when FlareSolverr solves a CF
+    challenge, the returned cookies (cf_clearance et al) and the
+    matching User-Agent are now cached per-host (25 min TTL).
+    Subsequent requests on the same host attach the cached cookie
+    header and bypass CF with plain `requests` - no second
+    FlareSolverr round-trip.  Result: bstsrs and srstop both finish
+    well inside providers.timeout and links appear simultaneously.
+ - Robust JSON parsing for /ajax/search.php (FIX): FlareSolverr
+   renders all responses through Chrome and wraps JSON payloads in
+   `<html><body><pre>JSON</pre></body></html>`.
+  * resources/lib/sources/working/srstop_link.py
+  * resources/lib/sources/working/bstsrs_one.py
+    New `_parse_search_json` helper that strips the `<pre>` wrapper
+    before json.loads, so the search-API permalink fallback keeps
+    working when the request was solved by FlareSolverr.
+ - NEW TV providers (sister sites of projectfreetv_cyou, same page
+   template / `/open/link/<id>/` redirector, also CF-protected and
+   covered by the new cookie cache):
+  * resources/lib/sources/working/watchseries_cyou.py
+    `https://watchseries.cyou/tv-series/<slug>-season-<n>-episode-<m>/`
+  * resources/lib/sources/working/projectfreetv_lol.py
+    `https://projectfreetv.lol/tv-series/<slug>-season-<n>-episode-<m>/`
+
+v1.0.7 (2026-04-29)
+ - Why bstsrs went silent: bstsrs.in was placed behind a Cloudflare
+   managed JS challenge (cf-mitigated: challenge) before v1.0.5; it
+   was not srstop that broke it. Plain `requests` (what Kodi uses)
+   gets a 403 "Just a moment..." page on every URL, so the regex
+   finds zero dbneg(...) embeds and the scraper returns []. The two
+   alternate domains are also gone: bstsrs.one 302s to an ad
+   redirector and bstsrs.cc 302s to a parking page (ww1.bstsrs.cc).
+   You only noticed once srstop began contributing ~19 links per
+   episode and the bstsrs absence became conspicuous.
+
+ - Cloudflare auto-bypass via FlareSolverr (NEW, opt-in):
+  * resources/lib/modules/client.py: scrapePage() now detects CF
+    managed-challenge / IUAM responses (status 403/503 with
+    `cf-mitigated: challenge` or "Just a moment..." body) and
+    transparently retries the same request through a self-hosted
+    FlareSolverr instance.  Returns a duck-typed Response so all
+    existing callers keep working.
+  * resources/settings.xml: NEW field under Playback Settings -
+    "FlareSolverr URL".  Blank by default => behaviour identical
+    to v1.0.6.  Set it to e.g. `http://127.0.0.1:8191/v1` to
+    unlock bstsrs and any future CF-protected provider.
+
+ - bstsrs scraper hardening continued:
+  * Drops the dead bstsrs.one and bstsrs.cc fall-backs (they were
+    just costing 30+ seconds of timeouts per episode for nothing).
+  * Tries the Italian local title first via `localtvshowtitle`
+    (bstsrs.in URLs use Italian show names, e.g. "House M.D." ->
+    "/show/dr-house-medical-division-...").  Then falls back to
+    the original title slugs and the /ajax/search.php?q= search
+    API for both titles.
+  * Short-circuits as soon as a CF challenge is detected when no
+    FlareSolverr URL is configured, so it no longer slows the
+    overall episode scrape down.
+
+ HOW TO ENABLE BSTSRS
+   1. Run FlareSolverr on the same machine as Kodi:
+        Docker:  docker run -d -p 8191:8191 --restart unless-stopped \
+                 --name flaresolverr ghcr.io/flaresolverr/flaresolverr:latest
+        Windows / Linux / macOS prebuilt binaries:
+                 https://github.com/FlareSolverr/FlareSolverr/releases
+   2. In Kodi: Gratis Red > Settings > Playback Settings > scroll to
+      "Cloudflare Bypass (FlareSolverr)" > paste:
+        http://127.0.0.1:8191/v1
+   3. Re-open any episode.  bstsrs.in entries will now appear
+      alongside srstop.link.
+
+v1.0.6 (2026-04-29)
+ - bstsrs scraper hardened so it returns links alongside srstop.
+   Previously bstsrs_one.py only tried two slug guesses on bstsrs.in,
+   required the page to contain an `imdb.com/title/<imdb>/` anchor,
+   used a single strict `window.open(dbneg('...'))` regex, and had no
+   decoder fallback - so once the site dropped the imdb anchor /
+   switched to the `embed-selector` layout it returned 0 links.
+   Rewritten to mirror srstop_link.py:   * tries bstsrs.in, bstsrs.one
+   and bstsrs.cc
+  * tries multiple slug variants (`title year`, cleantitle slug,
+     simple lowercase-dash slug)
+  * falls back to the /ajax/search.php?q= search API per domain to
+     resolve the real show permalink
+  * uses the broader `embed-selector ... dbneg(...)` regex with a
+     plain `dbneg(...)` fallback
+  * decodes embeds with the existing hex-table decoder AND TV Free's
+    per-string offset variant
+    Net effect: whatever srstop.link returns for an episode, bstsrs
+    now also returns alongside it whenever bstsrs has the title.
+
+v1.0.5 (2026-04-29)
+ - TV Free integration: ported every TV Free scraper into Gratis Red
+   so every link TV Free can find is now resolvable from inside this
+   addon. No need to keep TV Free installed alongside.
+  * NEW provider resources/lib/sources/working/srstop_link.py - the
+    "Srstop" plugin from TV Free (bst.py) rewritten as a Scrubs-style
+    `class source`. It plugs straight into the existing Movies/TV
+    Shows scraping pipeline so every show page now also queries
+    srstop.link for embeds. Decodes the dbneg(...) embed strings
+    using both the existing GratisRed hex-table decoder and TV
+    Free's per-string offset variant (whichever yields a valid URL).
+  * NEW indexer plugin resources/lib/indexers/plugins/daddylive.py -
+    the "Daddy" plugin from TV Free (ddlv.py) ported into the
+    GratisRed indexer-plugin format used by tvpassport.py. Provides
+    "Live TV / Sports (DaddyLive)" inside the TV Shows menu with the
+    full daddylive.mp schedule (every category the upstream API
+    publishes - sport, movies, news, etc.) plus the 24/7 channel
+    list, and resolves the m3u8 stream the same way TV Free does
+    (channelKey + serverKey lookup, FFmpegDirect playback).
+  * Wiring: navigator.py now lists "Live TV / Sports (DaddyLive)"
+    under TV Shows, and system.py routes daddy_menu / daddy_channels
+    / daddy_cats / daddy_events / daddy_play into the new module.
+
+v1.0.4 (2026-04-29)[/COLOR]
+[COLOR blue]Thank you to The Alpha for his work on TVmaze.[/COLOR][COLOR red]
+ - TVmaze Networks / WebChannels overhaul:
+  * FIXED: many networks/webchannels showed empty lists or only a
+    handful of (the wrong) shows. Two root causes:
+    1) Wrong network IDs in resources/lib/indexers/metadata/tvmaze/
+       tvmaze_networks.py - the curated list shipped with v1.0.2 had
+       several IDs pointing at the wrong network on TVmaze (e.g. FX
+       -> Cinemax, BBC Two -> FX, FXX -> ITV1, Channel 4 -> BBC
+       America, BBC Three -> TNT, Channel 5 -> Syfy, Disney XD ->
+       ITV2, History (US) -> History (CA), Sky Atlantic ->
+       SundanceTV). All IDs are now verified against live TVmaze API
+       responses.
+    2) tvshows.tvmaze_list() only fetched the single 250-show id=0
+       page and filtered client-side. TVmaze paginates /shows by
+       show-id (oldest first), so most modern networks/webchannels
+       had at most a few matching shows in that page (and Disney+ /
+       HBO Max / Apple TV+ typically came up empty - their shows
+       live much further down). We now build a deduplicated, cached
+       "all shows" pool from /shows?page=0..N (parallel page fetches,
+       ~25 s on first build, instant thereafter for the whole cache
+       TTL) and filter against that pool, so every network click
+       returns its real catalogue.
+  * IMPROVED: cleaned-up curated list - removed duplicates (Apple TV+
+    moved to WebChannels only, Paramount+ collapsed) and added Adult
+    Swim, A&E, BBC Four, BBC America, ITV1/2/4, Lifetime, SundanceTV,
+    VH1, Acorn TV, Amazon Freevee, CW Seed, HBO Go, Prime Video,
+    Tubi, discovery+ where appropriate.
+
+v1.0.3 (2026-04-28)
+ - TVmaze bug fixes in v1.0.2:
+  * FIXED: "Premiering Today (US TV)" did not open. TVmaze does not
+    expose a ``premieres=1`` query param, so the addon strips it and
+    filters S1E1 client-side - but on most days the US schedule has
+    zero S1E1 episodes, leaving the list empty. Worse, an empty list
+    crashed episodeDirectory()'s ``for i in items:`` loop on None,
+    so Kodi reported "XFILE::CDirectory::GetDirectory - Error getting
+    plugin://..." instead of an empty folder.
+    Fix: episodes.tvmaze_list() now widens the search to the next 14
+    days when the user explicitly asked for premieres and today has
+    none. episodeDirectory() also finalises the directory cleanly
+    when the list is empty/None, so empty TVmaze sections never error.
+  * FIXED: "New Episodes (US TV)" did not open. episodes.tvmaze_list()
+    returned None on any inner exception (network timeout, JSON
+    decode error, TVmaze hiccup), and the calendar() accumulator did
+    ``self.list += None`` which raised TypeError and prevented
+    control.directory() from ever being called.
+    Fix: tvmaze_list() now always returns a list (never None) and
+    calendar() guards each per-day chunk with isinstance(chunk, list).
+  * FIXED: "Most Popular Shows" took an age to load (60-120 seconds).
+    tvshows.tvmaze_list() returned all 250 rows from a single TVmaze
+    page and worker() then performed a TMDb info lookup *per show*
+    (often falling back to a Trakt search when imdb was missing).
+    Fix: the Most Popular variant now keeps only the top 80 shows by
+    TVmaze popularity weight; load time drops to under 15 seconds.
+    The existing next-page link is unchanged for users who want more.
+
+v1.0.2 (2026-04-28)
+ - TVmaze sections overhauled and expanded:
+  * FIXED: Networks and WebChannels. The module has been recreated
+    with a hand-curated list of popular networks and streaming
+    channels.
+  * FIXED: "Explore TVmaze" sub-menu had been commented out in the
+    navigator and is now visible again under TV Shows.
+  * FIXED: tvshows.py tvmaze_list() was scraping the rendered HTML
+    of www.tvmaze.com (CSS classes like div#w1 / span.title) and
+    broke whenever the website's markup changed. Replaced with calls
+    to the official api.tvmaze.com JSON endpoints (no API key, no
+    rate-limit auth).
+  * FIXED: episodes.py tvmaze_list() now tolerates both /schedule
+    (US TV, "show" key) and /schedule/web (streaming, "_embedded.show"
+    key) payload shapes - the old code crashed on web schedule items.
+ - NEW TVmaze sections (under Explore TVmaze):
+  * Most Popular Shows (api.tvmaze.com/shows?page=N, paginated)
+  * Premiering Today (US TV) - first episode of season 1
+  * Streaming Today - Netflix / Hulu / Disney+ / etc. via /schedule/web
+  * Recently Updated Shows (last day / week / month)
+  * Genres browser (Action / Drama / Comedy / Sci-Fi / Anime / etc.)
+  * Countries browser (US / GB / AU / JP / KR / etc.)
+ - Networks list now hand-curated for usability (popular outlets only,
+   covers ABC / CBS / NBC / FOX / HBO / Netflix / Disney+ / Apple TV+ etc.)
+   instead of the full ~3000-entry dump.
+ - modules/tvmaze.py expanded with helper methods (page, schedule,
+   webSchedule, updates, search, searchPeople) for future use.
+
+v1.0.1 (2026-04-28)
+ - TV Passport Channels overhauled:
+  * Channel addresses and logos updated
+  * Channels no longer active removed
+  * Logos scraped from tvpassport.com and now hosted on The Red Wizard 
+    server. Where transparency made logos difficult to view, switched to
+	jpeg (fully opaque)
+  * Channels that don't usually show Movies hidden (can easily be
+    reinstated if listings change)
+  * Moved from Main to Movies menu
+ - Changelogs moved from online to traditional locally hosted
+ - Themes renamed and reorganised (requires script.gratisred.artwork v1.0.2)
+ - Old entries cleaned/removed
+
+v1.0.0 (2026-04-23)
+ - Forked from[/COLOR] [COLOR orange]Scrubs v2 v5.1.55 (most recent JewBMX
+   version 5.1.42)[/COLOR][COLOR red]
+ - New Transparent theme set to default[/COLOR]
