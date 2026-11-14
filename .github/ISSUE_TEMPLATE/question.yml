@@ -1,0 +1,29 @@
+name: Question
+description: Anything else
+labels: ["question"]
+body:
+  - type: dropdown
+    id: addon
+    attributes:
+      label: Add-on
+      options:
+        - Red Light
+        - Gratis Red
+        - MP3 Streams
+        - The Red Wizard
+        - Other, Please Specify
+    validations:
+      required: true
+  - type: input
+    id: addon-other
+    attributes:
+      label: Other add-on
+      description: Only if you chose Other, Please Specify.
+    validations:
+      required: false
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true

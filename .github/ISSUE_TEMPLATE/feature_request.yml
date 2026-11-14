@@ -1,0 +1,29 @@
+name: Feature request
+description: Something you would like added
+labels: ["new feature"]
+body:
+  - type: dropdown
+    id: addon
+    attributes:
+      label: Add-on
+      options:
+        - Red Light
+        - Gratis Red
+        - MP3 Streams
+        - The Red Wizard
+        - Other, Please Specify
+    validations:
+      required: true
+  - type: input
+    id: addon-other
+    attributes:
+      label: Other add-on
+      description: Only if you chose Other, Please Specify.
+    validations:
+      required: false
+  - type: textarea
+    id: request
+    attributes:
+      label: What would you like?
+    validations:
+      required: true

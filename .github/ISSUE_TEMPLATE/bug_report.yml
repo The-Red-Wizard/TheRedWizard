@@ -1,0 +1,44 @@
+name: Bug report
+description: Something is broken
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please include a Kodi debug log.
+
+        Turn on debug logging in **Kodi Settings → System → Logging → Enable debug logging**. Then try it again, once, so the log catches it.
+
+        Upload it from **Red Light → Tools → Changelog & Log Utils → Upload Kodi Log to Pastebin** and paste the link below.
+  - type: dropdown
+    id: addon
+    attributes:
+      label: Add-on
+      options:
+        - Red Light
+        - Gratis Red
+        - MP3 Streams
+        - The Red Wizard
+        - Other, Please Specify
+    validations:
+      required: true
+  - type: input
+    id: addon-other
+    attributes:
+      label: Other add-on
+      description: Only if you chose Other, Please Specify.
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What went wrong?
+    validations:
+      required: true
+  - type: input
+    id: log
+    attributes:
+      label: Debug log link
+      placeholder: https://paste.kodi.tv/
+    validations:
+      required: true
