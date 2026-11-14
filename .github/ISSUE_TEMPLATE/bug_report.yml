@@ -1,13 +1,13 @@
-name: Bug report
+name: Bug Report
 description: Something is broken
-labels: ["bug"]
+title: "[Bug Report] "
 body:
   - type: markdown
     attributes:
       value: |
         Please include a Kodi debug log.
 
-        Turn on debug logging in **Kodi Settings → System → Logging → Enable debug logging**. Then try it again, once, so the log catches it.
+        Turn on debug logging in **Kodi Settings → System → Logging → Enable debug logging**. Then make the problem happen one more time.
 
         Upload it from **Red Light → Tools → Changelog & Log Utils → Upload Kodi Log to Pastebin** and paste the link below.
   - type: dropdown
@@ -42,3 +42,10 @@ body:
       placeholder: https://paste.kodi.tv/
     validations:
       required: true
+  - type: checkboxes
+    id: log-confirmed
+    attributes:
+      label: Please confirm
+      options:
+        - label: A Kodi debug log has been included
+          required: true

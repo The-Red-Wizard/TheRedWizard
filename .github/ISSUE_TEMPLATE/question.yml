@@ -1,6 +1,6 @@
 name: Question
 description: Anything else
-labels: ["question"]
+title: "[Question/Other] "
 body:
   - type: dropdown
     id: addon

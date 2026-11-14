@@ -1,6 +1,6 @@
-name: Feature request
+name: Feature Request
 description: Something you would like added
-labels: ["new feature"]
+title: "[New Feature Request] "
 body:
   - type: dropdown
     id: addon
