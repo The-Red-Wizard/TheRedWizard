@@ -9,7 +9,11 @@ body:
 
         Turn on debug logging in **Kodi Settings → System → Logging → Enable debug logging**. Then make the problem happen one more time.
 
-        Upload it from **Red Light → Tools → Changelog & Log Utils → Upload Kodi Log to Pastebin** and paste the link below.
+        Upload your log from **Red Light → Tools → Changelog & Log Utils → Upload Kodi Log to Pastebin**
+        
+        - or -
+        
+        **The Red Wizard → Tools → Upload Kodi Log** and paste the link below.
   - type: dropdown
     id: addon
     attributes:
